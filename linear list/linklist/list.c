@@ -84,3 +84,61 @@ bool delElem(linkList L, int i, elemType *e){
     free(cur);
     return true;
 }
+int locateElem(linkList L, elemType e){
+    linkList cur = L->nex;
+    int pos = -1, i = 1;
+    while(cur){
+        if (cur->data == e){
+            pos = i;
+            break;
+        }
+        cur = cur->nex;
+        i ++;
+    }
+    return pos;
+}
+int getElem(linkList L, int i){
+    if (i < 1) return -1;
+    linkList cur = L->nex;
+    while(cur != NULL){
+        i --;
+        if (i == 0) return cur->data;
+        cur = cur->nex;
+    }
+    return -1;
+}
+void mergeLink(linkList A, linkList B, linkList C){
+    linkList cur1 = A->nex;
+    linkList cur2 = B->nex;
+    while(cur1 != NULL || cur2 != NULL){
+        if (cur2 == NULL || (cur1 != NULL && cur1->data <= cur2->data)){
+            C->nex = cur1;
+            cur1 = cur1->nex;
+            C = C->nex;
+        }
+        else {
+            C->nex = cur2;
+            cur2 = cur2->nex;
+            C = C->nex;
+        }
+    }
+}
+void sortLink(linkList L){
+    linkList i, j;
+    for (i = L->nex;i != NULL;i = i->nex)
+        for (j = L->nex;j->nex != NULL;j = j->nex)
+            if (j->data > j->nex->data){
+                elemType t = j->data;
+                j->data = j->nex->data;
+                j->nex->data = t;
+            }
+}
+int lenLink(linkList L){
+    int i = 0;
+    linkList cur = L->nex;
+    while(cur){
+        cur = cur->nex;
+        i ++;
+    }
+    return i;
+}
