@@ -10,7 +10,7 @@ bool insElem(linkList L, int i, elemType e){
     linkList cur = L, las = cur;
     while(i --){
         if (cur->nex == NULL){
-            if (i == 1){
+            if (i == 0){
                 linkList now = malloc(sizeof(node));
                 now->data = e;
                 now->nex = NULL;
