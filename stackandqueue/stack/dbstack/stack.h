@@ -13,12 +13,12 @@
 
 typedef struct seqStack{
     int data[MAXSIZE];
-    int top;
+    int top1, top2;
 }stack;
 
 extern void initStack(stack *s);
-extern bool push(stack *s, elemType e);
-extern bool pop(stack *s, elemType *e);
-extern bool getTop(stack *s, elemType *e);
-extern void cleanStack(stack *s);
-extern bool empty(stack *s);
+extern void cleanStack(stack *s, int ope);
+extern bool push(stack *s, int ope, elemType e);
+extern bool pop(stack *s, int ope, elemType *e);
+extern bool getTop(stack *s, int ope, elemType *e);
+extern bool empty(stack *s, int ope);
