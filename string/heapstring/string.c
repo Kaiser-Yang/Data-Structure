@@ -1,34 +1,31 @@
 #include "string.h"
 
 void initString(string *s, string *t){
+    s->len = 0;
+    s->ch = malloc(t->len);
     for (int i = 0;i < t->len;i ++) s->ch[s->len ++] = t->ch[i];
 }
 bool insString(string *s, int pos, string *t){
     pos --;
     if (pos < 0 || pos >s->len) return false;
-    if (s->len + t->len <= MAXSIZE){
-        for (int i = t->len - 1;i >= 0;i --) s->ch[pos + t->len + i] = s->ch[pos + i];
-        for (int i = 0;i < t->len;i ++) s->ch[pos + i] = t->ch[i];
-        s->len = s->len + t->len;
-    }
-    else{
-        if (pos + 1 + t->len >= MAXSIZE){
-            for (int i = pos;i < MAXSIZE;i ++) s->ch[i] = t->ch[i - pos];
-            s->len = MAXSIZE;
-        }
-        else{
-            for (int i = MAXSIZE - 1;i >= pos + t->len;i --) s->ch[i] = s->ch[pos + i - pos - t->len];
-            for (int i = 0;i < t->len;i ++) s->ch[pos + i] = t->ch[i];
-            s->len = MAXSIZE;
-        }
-    }
+    char *temp = malloc(s->len + t->len);
+    for (int i = 0;i < pos;i ++) temp[i] = s->ch[i];
+    for (int i = 0;i < t->len;i ++) temp[i + pos] = t->ch[i];
+    for (int i = pos;i < s->len;i ++) temp[t->len + i] = s->ch[i];
+    s->len += t->len;
+    free(s->ch);
+    s->ch = temp;
     return true;
 }
 bool delString(string *s, int pos, int len){
     pos --;
     if (pos < 0 || len < 0 || pos + len - 1 >= s->len) return false;
+    char *temp = malloc(s->len - len);
+    for (int i = 0;i < pos;i ++) temp[i] = s->ch[i];
+    for (int i = pos + len;i < s->len;i ++) temp[i - len] = s->ch[i];
+    free(s->ch);
+    s->ch = temp;
     s->len -= len;
-    for (int i = pos;i < s->len;i ++) s->ch[i] = s->ch[i + len];
     return true;
 }
 bool comString(string *s, string *t){
